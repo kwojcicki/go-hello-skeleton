@@ -1,0 +1,23 @@
+[[constraint]]
+  name = "github.com/go-chi/chi"
+  version = "3.3.2"
+
+[[constraint]]
+  name = "github.com/golang-migrate/migrate"
+  version = "3.2.0"
+
+[[constraint]]
+  name = "github.com/goware/cors"
+  version = "1.0.0"
+
+[[constraint]]
+  name = "github.com/sirupsen/logrus"
+  version = "1.0.5"
+
+[[constraint]]
+  name = "github.com/zenazn/goji"
+  version = "1.0"
+
+[prune]
+  go-tests = true
+  unused-packages = true
