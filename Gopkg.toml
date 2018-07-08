@@ -7,7 +7,7 @@
   version = "3.2.0"
 
 [[constraint]]
-  name = "github.com/goware/cors"
+  name = "github.com/go-chi/cors"
   version = "1.0.0"
 
 [[constraint]]
