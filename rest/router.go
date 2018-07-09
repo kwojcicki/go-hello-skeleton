@@ -29,16 +29,15 @@ func InitRouter() *chi.Mux {
 
 
 	r.Route("/", func(r chi.Router) {
-		r.Route("/schemas", func(r chi.Router) {
-			r.Get("/", GetSchemas)
-			r.Get("/{schemaId}", GetSchemaByID)
-			r.Put("/", CreateSchema)
+		r.Route("/pet", func(r chi.Router) {
+			r.Get("/{petID}", GetPet)
 		})
-		r.Route("/docs", func(r chi.Router) {
-			r.Get("/", GetDocs)
-			r.Get("/{docId}", GetDocByID)
-			r.Put("/", SaveDoc)
-		})
+		// TODO: rest of CRUD endpoints
+		//r.Route("/docs", func(r chi.Router) {
+		//	r.Get("/", GetDocs)
+		//	r.Get("/{docId}", GetDocByID)
+		//	r.Put("/", SaveDoc)
+		//})
 	})
 
 	return r
