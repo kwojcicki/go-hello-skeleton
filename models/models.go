@@ -1,5 +1,14 @@
 package models
 
-type PostPetRequest struct {
+type PetTypes string
 
+const (
+	Dog PetTypes = "Dog"
+	Cat PetTypes = "Cat"
+	Lizard PetTypes = "Lizard"
+)
+
+type PutPetRequest struct {
+	PetName string
+	PetType PetTypes
 }

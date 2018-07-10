@@ -1,4 +1,4 @@
 vendor/*
 Gopkg.lock
 hello-skeleton.exe
-idea/*
+.idea/*
