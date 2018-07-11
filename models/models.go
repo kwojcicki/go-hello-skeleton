@@ -8,7 +8,12 @@ const (
 	Lizard PetTypes = "Lizard"
 )
 
-type PutPetRequest struct {
+type Pet struct {
 	PetName string
 	PetType PetTypes
+	Age int
+}
+
+type PutPetRequest struct {
+	Pet Pet
 }
