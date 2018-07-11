@@ -31,6 +31,7 @@ func InitRouter() *chi.Mux {
 	r.Route("/", func(r chi.Router) {
 		r.Route("/pet", func(r chi.Router) {
 			r.Get("/{petID}", GetPet)
+			r.Put("/", PutPet)
 		})
 		// TODO: rest of CRUD endpoints
 		//r.Route("/docs", func(r chi.Router) {
