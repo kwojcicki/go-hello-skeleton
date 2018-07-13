@@ -1,13 +1,14 @@
 package data
 
 import (
-	"go-hello-skeleton/models"
 	"database/sql"
 	"fmt"
+	"go-hello-skeleton/models"
 )
 
 type petRepo interface {
 	putPet(pet models.Pet) error
+	getPets() ([]models.Pet, error)
 }
 
 type repo struct {
@@ -15,14 +16,39 @@ type repo struct {
 }
 
 // NewRepo
-func NewRepo(db *sql.DB) *repo{
+func NewRepo(db *sql.DB) *repo {
 	return &repo{
 		db: db,
 	}
 }
 
+func (p *repo) getPets() ([]models.Pet, error) {
+	stmt, err := p.db.Prepare("SELECT * FROM pets")
+	if err != nil {
+		return nil, err
+	}
+
+	rows, err := stmt.Query()
+	if err != nil {
+		return nil, err
+	}
+
+	pets := make([]models.Pet, 0)
+	for rows.Next() {
+		pet := models.Pet{}
+		// no need to override global err and do err :=
+		err = rows.Scan(&pet.PetName, &pet.PetType, &pet.Age)
+		if err != nil {
+			return nil, err
+		}
+		pets = append(pets, pet)
+	}
+
+	return pets, nil
+}
+
 func (p *repo) putPet(pet models.Pet) error {
-	stmt, err := p.db.Prepare("INSERT INTO pets (PetName, PetType, Age) VALUES ($1, $2, $3)")
+	stmt, err := p.db.Prepare("INSERT INTO pets (petName, petType, age) VALUES ($1, $2, $3)")
 	if err != nil {
 		return err
 	}
