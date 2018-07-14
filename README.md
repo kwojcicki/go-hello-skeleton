@@ -3,6 +3,8 @@
 Opinionated go microservice skeleton. Created in a windows environment causing makefile
 and such to be unoptimal for actual dev experience.
 
+Security is not heavily covered.
+
 ## Repo structure
 cmd - contains all entrypoints to the application
 
