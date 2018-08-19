@@ -3,9 +3,7 @@ package data
 import (
 	"database/sql"
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
-	"io/ioutil"
 	"testing"
 )
 
@@ -23,9 +21,6 @@ func constructBasicRepo(t *testing.T) *TestData {
 		t.Fatalf("error '%s' when opening a stub database connection", err)
 	}
 
-	logger := logrus.New()
-	logger.Out = ioutil.Discard
-
 	repo := NewRepo(db)
 
 	repoTestData := TestData{
@@ -41,22 +36,40 @@ func (r *TestData) Close() {
 	r.db.Close()
 }
 
-func TestAddTcaSetting(t *testing.T) {
+func TestPetRepo(t *testing.T) {
+
 	d := constructBasicRepo(t)
 	defer d.Close()
 
-	//d.mock.ExpectBegin()
-	d.mock.ExpectPrepare("SELECT *")
-	d.mock.ExpectQuery("SELECT *").WillReturnRows(sqlmock.NewRows([]string{"petName", "petType", "age"}))
-	//d.mock.ExpectExec("COPY (.+)").WithArgs("tca1", 10, 10, 5, 10, true).WillReturnResult(sqlmock.NewResult(1, 1))
-	//d.mock.ExpectExec("COPY (.+)").WillReturnResult(sqlmock.NewResult(1, 1))
-	//d.mock.ExpectCommit()
+	t.Run("Test No Pets", func(t *testing.T) {
 
-	pets, err := d.repo.getPets()
+		d.mock.ExpectPrepare("SELECT *")
+		d.mock.ExpectQuery("SELECT *").
+			WillReturnRows(sqlmock.NewRows([]string{"petName", "petType", "age"}))
 
-	assert.Equal(t, 0, len(pets))
+		pets, err := d.repo.getPets()
 
-	if err != nil {
-		t.Errorf("Expected err to be nil but got: %s", err)
-	}
+		assert.Equal(t, 0, len(pets))
+
+		if err != nil {
+			t.Errorf("Expected err to be nil but got: %s", err)
+		}
+	})
+
+	t.Run("Test Get Pets", func(t *testing.T) {
+
+		d.mock.ExpectPrepare("SELECT *")
+		d.mock.ExpectQuery("SELECT *").
+			WillReturnRows(sqlmock.NewRows([]string{"petName", "petType", "age"}).
+				FromCSVString("Krystian,Dog,12"))
+
+		pets, err := d.repo.getPets()
+
+		assert.Equal(t, 1, len(pets))
+
+		if err != nil {
+			t.Errorf("Expected err to be nil but got: %s", err)
+		}
+	})
+
 }
