@@ -44,7 +44,7 @@ func TestPetRepo(t *testing.T) {
 	defer d.Close()
 
 	testCases := []struct {
-		input  string
+		input  []string
 		result int
 	}{
 		{input: "Krystian,Dog,12", result: 1},
