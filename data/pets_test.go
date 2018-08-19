@@ -46,7 +46,8 @@ func TestAddTcaSetting(t *testing.T) {
 	defer d.Close()
 
 	//d.mock.ExpectBegin()
-	d.mock.ExpectPrepare("SELECT (.+)")
+	d.mock.ExpectPrepare("SELECT *")
+	d.mock.ExpectQuery("SELECT *").WillReturnRows(sqlmock.NewRows([]string{"petName", "petType", "age"}))
 	//d.mock.ExpectExec("COPY (.+)").WithArgs("tca1", 10, 10, 5, 10, true).WillReturnResult(sqlmock.NewResult(1, 1))
 	//d.mock.ExpectExec("COPY (.+)").WillReturnResult(sqlmock.NewResult(1, 1))
 	//d.mock.ExpectCommit()
